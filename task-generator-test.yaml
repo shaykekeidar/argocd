@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: task-generator-test
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/shaykekeidar/kub-network-01-starting-setup.git
+    targetRevision: master
+    path: helm/task-generator
+    helm:
+      valueFiles:
+        - values-test.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: task-generator-test
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
